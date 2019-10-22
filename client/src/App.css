@@ -1,0 +1,47 @@
+@import '~antd/dist/antd.css';
+
+.App{
+}
+
+.custom-layout {
+  min-height: 100vh;
+}
+
+.logo{
+  font-weight: bold;
+  font-size: 25px;
+  color: #fff;
+  margin: 1em 0.2em;
+  overflow: hidden;
+}
+
+.custom-header{
+  background-color: #fff; 
+  padding: 0;
+}
+
+.custom-content-wrapper{
+  margin:0 16px;
+}
+
+.custom-breadcrumb{
+  margin:16px 0;
+}
+
+.custom-content{
+  padding: 24;
+  background-color: #fff;
+  height: 100%;
+}
+
+.custom-footer{
+  text-align: center;
+}
+
+.custom-table .ant-table-placeholder{
+  min-height: 60vh;
+}
+
+.custom-pagination{
+  margin: 1em 1em;
+}
