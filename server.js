@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const Logger = require('./logger');
@@ -13,6 +14,7 @@ mainRoute.use('/api', rootRouter);
 require('dotenv').config();
 
 app.use(bodyParser.json());
+app.use(cors());
 app.use(mainRoute);
 
 mongoose

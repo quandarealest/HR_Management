@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
-import { Table, Input, Button, Icon, Pagination } from 'antd';
+import { Table, Input, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
 
+import UserEditModal from '../UserEditModal/UserEditModal';
 export default class UserManagement extends Component {
-
+  constructor(props) {
+    super(props);
+    const { getUserList } = this.props;
+    getUserList();
+    this.state = {
+      searchText: '',
+      editing: false,
+      record: null,
+      openModal: false,
+    }
+  }
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -64,44 +75,112 @@ export default class UserManagement extends Component {
     this.setState({ searchText: '' });
   };
 
+  handleDelete = (key) => {
+    const { deleteUser } = this.props;
+    deleteUser(key);
+  };
+
+  handleEdit = (values) => {
+    const { updateUser } = this.props;
+    updateUser(values);
+  };
+
+  openEditModal = (record) => {
+    this.setState(prevState => ({
+      record,
+      openModal: !prevState.openModal,
+    })
+    )
+  }
+  
+  toggle = () => {
+    this.setState(prevState => ({
+      openModal: !prevState.openModal
+    }))
+  }
+
   render() {
+    const { userList = {} } = this.props;
+    const { openModal, record } = this.state;
     const columns = [
       {
         title: 'Full Name',
         dataIndex: 'fullName',
         key: 'fullName',
+        width: '20%',
         ...this.getColumnSearchProps('fullName'),
       },
       {
         title: 'Address',
         dataIndex: 'address',
         key: 'address',
-        ...this.getColumnSearchProps('address'), 
+        width: '30%',
+        // ...this.getColumnSearchProps('address'),
+        render: address => (
+          <>
+            {address.map(item => (
+              <p>
+                {item}
+              </p>
+            ))}
+          </>
+        )
       },
       {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
-        ...this.getColumnSearchProps('phone'),
+        render: phone => (
+          <>
+            {phone.map(item => (
+              <p>
+                {item}
+              </p>
+            ))}
+          </>
+        )
       },
       {
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
-        ...this.getColumnSearchProps('email'),
+        render: email => (
+          <>
+            {email.map(item => (
+              <p>
+                <a href="/">
+                {item}
+                </a>
+              </p>
+            ))}
+          </>
+        )
       },
       {
         title: 'Id License',
         dataIndex: 'idLicense',
         key: 'idLicense',
         ...this.getColumnSearchProps('idLicense'),
+      },
+      {
+        title: 'Action',
+        render: (text, record) => (
+          <>
+            <Button onClick={() => this.openEditModal(record)} style={{ marginRight: "1em", marginBottom: "1em" }} type="primary">
+              Edit
+            </Button>
+            <Button onClick={() => this.handleDelete(record._id)} type="danger">
+              Delete
+            </Button>
+          </>
+        )
       }
     ];
 
     return (
       <div>
-        <Table bordered={true} className="custom-table" columns={columns} />
-        <Pagination className="custom-pagination" defaultCurrent={1} />
+        <Table bordered={true} className="custom-table" columns={columns} dataSource={userList}/>
+        <UserEditModal open={openModal} toggle={this.toggle} record={record} update={this.handleEdit} />
       </div>
     )
   }

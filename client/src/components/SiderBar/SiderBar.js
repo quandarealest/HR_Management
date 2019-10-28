@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
 
@@ -12,10 +13,18 @@ export default class SiderBar extends Component {
         </div>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
-              <Icon type="user" />
-              <span>User Management</span>
+              <Link to="/">
+                <Icon type="user" />
+                <span>User Management</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="2">
+              <Link to="/accounts">
+                <Icon type="reddit" />
+                <span>Accounts</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="3">
               <Icon type="desktop" />
               <span>Time Management</span>
             </Menu.Item>
