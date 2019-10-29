@@ -1,8 +1,10 @@
 const UsersService = require('./users.service');
+const AccountsService = require('../accounts/accounts.service');
 
 class UsersController {
   constructor(){
     this.service = new UsersService();
+    this.accountService = new AccountsService();
     this.list = this.list.bind(this);
     this.get = this.get.bind(this);
     this.load = this.load.bind(this);
@@ -48,9 +50,12 @@ class UsersController {
   }
 
   async create(req, res) {
-    const userInfo = req.body;
-    const newUser = await this.service.create(userInfo);
-    return res.json(newUser);
+    const {newUser, newAccount} = req.body;
+    const user = await this.service.create(newUser);
+    const userId = user._id;
+    const account = { ...newAccount, userId };
+    await this.accountService.create(account);
+    return res.json(user);
   }
 }
 

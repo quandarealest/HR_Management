@@ -27,7 +27,18 @@ class UserAddNew extends Component {
     const { addUser } = this.props;
     validateFields((err, values) => {
       if(!err) {
-        addUser(values);
+        const stringArray = values.fullName.split(" ");
+        let username = stringArray[0];
+        for( let index = 1; index < stringArray.length; index++) {
+          username = username.concat(stringArray[index].charAt(0));
+        }
+        username = username.toLowerCase();
+        const newAccount = {
+          username,
+          password: "123"
+        }
+        addUser({ newUser: values, newAccount});
+        // addAccount(newAccount);
         setTimeout(this.toggle, 1000);
       }
     })

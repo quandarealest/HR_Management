@@ -19,12 +19,6 @@ export default class SiderBar extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/accounts">
-                <Icon type="reddit" />
-                <span>Accounts</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3">
               <Icon type="desktop" />
               <span>Time Management</span>
             </Menu.Item>

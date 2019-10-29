@@ -3,6 +3,8 @@ export const ACTION_TYPES = {
   GET_USERS_SUCCESS: 'users/GET_USERS_SUCCESS',
   GET_USERS_FAILURE: 'users/GET_USERS_FAILURE',
   ADD_USER: 'users/ADD_USER',
+  ADD_USER_SUCCESS: 'users/ADD_USER_SUCCESS',
+  ADD_USER_FAILURE: 'users/ADD_USER_FAILURE',
   UPDATE_USER: 'users/UPDATE_USER',
   DELETE_USER: 'users/DELETE_USER',
 };
@@ -31,6 +33,16 @@ const addUser = (payload) => ({
   payload
 })
 
+const addUserSuccess = (payload) => ({
+  type: ACTION_TYPES.ADD_USER_SUCCESS,
+  payload
+})
+
+const addUserFailure = (error) => ({
+  type: ACTION_TYPES.ADD_USER_FAILURE,
+  error
+})
+
 const deleteUser = (payload) => ({
   type: ACTION_TYPES.DELETE_USER,
   payload,
@@ -39,6 +51,7 @@ const deleteUser = (payload) => ({
 const initialState = {
   userList: [],
   getError: null,
+  addError: null,
 }
 
 export const actions = {
@@ -46,6 +59,8 @@ export const actions = {
   getUsersSuccess,
   getUsersFailure,
   addUser,
+  addUserSuccess,
+  addUserFailure,
   deleteUser,
   updateUser,
 }
@@ -72,10 +87,15 @@ const userReducers = (state = initialState, action) => {
         ...state,
         getError: action.error
       }
-    case ACTION_TYPES.ADD_USER:
+    case ACTION_TYPES.ADD_USER_SUCCESS:
       return {
         ...state,
         userList: [...state.userList, action.payload]
+        }
+    case ACTION_TYPES.ADD_USER_FAILURE:
+      return {
+        ...state,
+        addError: action.error,
       }
     case ACTION_TYPES.DELETE_USER:
       return {

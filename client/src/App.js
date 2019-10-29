@@ -21,7 +21,6 @@ function App() {
             <Switch>
               <Route path="/" exact component={LayoutContent} />
               <Route path="/users" exact component={LayoutContent} />
-              <Route path="/accounts" exact component={LayoutContent} />
             </Switch>
           </Layout>
         </Router>

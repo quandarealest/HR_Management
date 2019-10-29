@@ -6,8 +6,6 @@ import UserEditModal from '../UserEditModal/UserEditModal';
 export default class UserManagement extends Component {
   constructor(props) {
     super(props);
-    const { getUserList } = this.props;
-    getUserList();
     this.state = {
       searchText: '',
       editing: false,
@@ -15,6 +13,12 @@ export default class UserManagement extends Component {
       openModal: false,
     }
   }
+  
+  componentDidMount(){
+    const { getUserList } = this.props;
+    getUserList();
+  }
+
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -166,8 +170,11 @@ export default class UserManagement extends Component {
         title: 'Action',
         render: (text, record) => (
           <>
-            <Button onClick={() => this.openEditModal(record)} style={{ marginRight: "1em", marginBottom: "1em" }} type="primary">
+            <Button onClick={() => this.openEditModal(record)} style={{ marginRight: "1em", marginBottom: "1em", width: "72.47px" }} type="primary">
               Edit
+            </Button>
+            <Button style={{ marginRight: "1em", marginBottom: "1em", width: "72.47px" }}>
+              Detail
             </Button>
             <Button onClick={() => this.handleDelete(record._id)} type="danger">
               Delete

@@ -10,7 +10,6 @@ function* getUserList(){
     const { data } = res;
     yield put(userActions.getUsersSuccess(data));
   }catch(error){
-    console.log(error);
     yield put(userActions.getUsersFailure(error));
   }
 }
@@ -18,10 +17,11 @@ function* getUserList(){
 function* addUser(data){
   try{
     const { payload } = data;
-    console.log(payload)
-    yield call(usersAPI.addUser, payload);
+    const { data: newUser } = yield call(usersAPI.addUser, payload);
+    yield put(userActions.addUserSuccess(newUser));
   }catch(error){
     console.log(error);
+    yield put(userActions.addUserFailure(error));
   }
 }
 
