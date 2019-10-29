@@ -13,10 +13,10 @@ class AccountsController{
 
   async load(req, res, next) {
     const { params } = req;
-    const { id: accountId } = params;
+    const { id } = params;
 
-    const account = await this.service.getOne(accountId);
-    res.account = account;
+    const account = await this.service.getOne(id);
+    req.account = account;
     return next();
   }
 

@@ -3,6 +3,7 @@ import { Table, Input, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import UserEditModal from '../UserEditModal/UserEditModal';
+import UserDetailModal from '../UserDetailModal/UserDetailModal';
 export default class UserManagement extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +11,9 @@ export default class UserManagement extends Component {
       searchText: '',
       editing: false,
       record: null,
+      account: null,
       openModal: false,
+      openDetailModal: false,
     }
   }
   
@@ -96,6 +99,16 @@ export default class UserManagement extends Component {
     })
     )
   }
+
+  openDetailmodal = (record) => {
+    const { getAccount } = this.props;
+    const { _id } = record;
+    getAccount(_id);
+    this.setState(prevState => ({
+      record,
+      openDetailModal: !prevState.openDetailModal,
+    }))
+  }
   
   toggle = () => {
     this.setState(prevState => ({
@@ -103,9 +116,15 @@ export default class UserManagement extends Component {
     }))
   }
 
+  toggleDetailModal = () => {
+    this.setState(prevState => ({
+      openDetailModal: !prevState.openDetailModal,
+    }))
+  }
+
   render() {
-    const { userList = {} } = this.props;
-    const { openModal, record } = this.state;
+    const { userList = {}, account = {} } = this.props;
+    const { openModal, record, openDetailModal } = this.state;
     const columns = [
       {
         title: 'Full Name',
@@ -173,7 +192,7 @@ export default class UserManagement extends Component {
             <Button onClick={() => this.openEditModal(record)} style={{ marginRight: "1em", marginBottom: "1em", width: "72.47px" }} type="primary">
               Edit
             </Button>
-            <Button style={{ marginRight: "1em", marginBottom: "1em", width: "72.47px" }}>
+            <Button onClick={() => this.openDetailmodal(record)} style={{ marginRight: "1em", marginBottom: "1em", width: "72.47px" }}>
               Detail
             </Button>
             <Button onClick={() => this.handleDelete(record._id)} type="danger">
@@ -188,6 +207,7 @@ export default class UserManagement extends Component {
       <div>
         <Table bordered={true} className="custom-table" columns={columns} dataSource={userList}/>
         <UserEditModal open={openModal} toggle={this.toggle} record={record} update={this.handleEdit} />
+        <UserDetailModal open={openDetailModal} toggle={this.toggleDetailModal} record={record} account={account} />
       </div>
     )
   }

@@ -44,8 +44,8 @@ class UsersController {
 
   async delete(req, res) {
     const { id } = req.params;
-
     await this.service.delete(id);
+    await this.accountService.delete(id);
     return res.json({ msg: 'success' })
   }
 

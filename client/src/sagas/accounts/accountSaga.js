@@ -4,13 +4,15 @@ import * as accountAPI from '../../api/accountAPI';
 import { actions as accountActions } from '../../reducers/accountReducers';
 import { ACTION_TYPES } from '../../reducers/accountReducers';
 
-function* getAccountList(){
+function* getAccount(data){
   try{
-    const res = yield call(accountAPI.getAccountList);
-    const { data } = res;
-    yield put(accountActions.getAccountsSuccess(data));
+    const { payload } = data;
+    const res = yield call(accountAPI.getAccount, payload);
+    const { data: accountInfo } = res;
+    yield put(accountActions.getAccountSuccess(accountInfo));
   }catch(error) {
-    yield put(accountActions.getAccountsFailure(error));
+    console.log(error);
+    yield put(accountActions.getAccountFailure(error));
   }
 }
 
@@ -24,6 +26,6 @@ function* addAccount(data) {
 }
 
 export default function* accountFlow(){
-  yield takeLatest(ACTION_TYPES.GET_ACCOUNTS, getAccountList);
+  yield takeLatest(ACTION_TYPES.GET_ACCOUNT, getAccount);
   yield takeLatest(ACTION_TYPES.ADD_ACCOUNT, addAccount);
 }

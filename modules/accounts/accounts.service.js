@@ -4,14 +4,14 @@ class AccountsService {
 
   getOne(id) {
     return Accounts.findOne({
-      _id: id,
-      deletedAt: null
+      userId: id,
+      deactivatedAt: null
     }).exec();
   }
 
   getList(skip, limit) {
     return Accounts.find({
-      deletedAt: null
+      deactivatedAt: null
     })
     .skip(+skip || 0)
     .limit(+limit || 10)
@@ -27,8 +27,8 @@ class AccountsService {
   }
 
   delete(id) {
-    return Accounts.updateOne({ _id: id }, {
-      deletedAt: new Date()
+    return Accounts.updateOne({ userId: id }, {
+      deactivatedAt: new Date()
     }).exec();
   }
 }
